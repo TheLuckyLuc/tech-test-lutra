@@ -1,6 +1,7 @@
-import { HydrateClient, api } from "@lutra/trpc/server";
+import Link from "next/link";
 
-import { InstructionBanner } from "./_components/instruction-banner";
+import { InstructionBanner } from "@lutra/app/_components/instruction-banner";
+import { HydrateClient, api } from "@lutra/trpc/server";
 
 export default async function Home() {
 	const patients = await api.patient.getPatients();
@@ -51,13 +52,13 @@ export default async function Home() {
 										</div>
 									</div>
 									<h3 className="mt-2 font-semibold">
-										<a
-											href="/#"
+										<Link
+											href={`/patient/${patient.id}`}
 											className="focus:outline-none group-hover:text-blue-600"
 										>
 											<span className="absolute inset-0" aria-hidden={true} />
 											{patient.firstName} {patient.lastName}
-										</a>
+										</Link>
 									</h3>
 									<p className="text-gray-600">
 										{patient.isActive ? "Active" : "Inactive"}
