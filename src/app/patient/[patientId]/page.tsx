@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { HydrateClient, api } from "@lutra/trpc/server";
 import { formatDate } from "@lutra/utils/date";
 
@@ -13,6 +15,7 @@ export default async function PatientView({
 				<header>
 					<div className="flex items-center justify-between">
 						<h3 className="font-semibold text-lg">Patient Details</h3>
+						<Link href="/">Back to home</Link>
 					</div>
 				</header>
 				<main>
