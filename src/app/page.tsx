@@ -3,14 +3,13 @@ import { HydrateClient, api } from "@lutra/trpc/server";
 import { InstructionBanner } from "./_components/instruction-banner";
 
 export default async function Home() {
-	const greeting = await api.hello.greeting();
+	const patients = await api.patient.getPatients();
 
 	return (
 		<HydrateClient>
 			<div className="space-y-4 p-4 sm:p-6 lg:p-8">
 				<InstructionBanner />
 				<header>
-					<h1>{greeting}</h1>
 					<div className="flex items-center justify-between">
 						<h3 className="font-semibold text-lg">Patients</h3>
 					</div>
@@ -18,9 +17,9 @@ export default async function Home() {
 				<main>
 					<div className="mt-6">
 						<div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
-							{[0].map((item) => (
+							{patients.map((patient) => (
 								<div
-									key={item}
+									key={patient.id}
 									className="group relative rounded border border-gray-200 bg-white p-2"
 								>
 									<div className="h-20">
@@ -57,10 +56,12 @@ export default async function Home() {
 											className="focus:outline-none group-hover:text-blue-600"
 										>
 											<span className="absolute inset-0" aria-hidden={true} />
-											Placeholder Text
+											{patient.firstName} {patient.lastName}
 										</a>
 									</h3>
-									<p className="text-gray-600">Placeholder description</p>
+									<p className="text-gray-600">
+										{patient.isActive ? "Active" : "Inactive"}
+									</p>
 								</div>
 							))}
 						</div>
