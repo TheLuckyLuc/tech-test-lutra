@@ -1,24 +1,37 @@
+"use client";
+
 import Link from "next/link";
 
 import { InstructionBanner } from "@lutra/app/_components/instruction-banner";
-import { HydrateClient, api } from "@lutra/trpc/server";
+import { api } from "@lutra/trpc/react";
 
-export default async function Home() {
-	const patients = await api.patient.getPatients();
+export default function Home() {
+	const patientsResponse = api.patient.getPatients.useQuery();
+	const appointmentCreator = api.appointment.createAppointment.useMutation();
+
+	const handleCreateAppointment = () => {
+		appointmentCreator.mutate({
+			patientId: 1,
+			scheduledFor: new Date(),
+			status: "SCHEDULED",
+			reason: "Routine check-up",
+			notes: "Patient is in good health.",
+		});
+	};
 
 	return (
-		<HydrateClient>
-			<div className="space-y-4 p-4 sm:p-6 lg:p-8">
-				<InstructionBanner />
-				<header>
-					<div className="flex items-center justify-between">
-						<h3 className="font-semibold text-lg">Patients</h3>
-					</div>
-				</header>
-				<main>
-					<div className="mt-6">
-						<div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
-							{patients.map((patient) => (
+		<div className="space-y-4 p-4 sm:p-6 lg:p-8">
+			<InstructionBanner />
+			<header>
+				<div className="flex items-center justify-between">
+					<h3 className="font-semibold text-lg">Patients</h3>
+				</div>
+			</header>
+			<main>
+				<div className="mt-6">
+					<div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
+						{patientsResponse.data ? (
+							patientsResponse.data.map((patient) => (
 								<div
 									key={patient.id}
 									className="group relative rounded border border-gray-200 bg-white p-2"
@@ -64,11 +77,19 @@ export default async function Home() {
 										{patient.isActive ? "Active" : "Inactive"}
 									</p>
 								</div>
-							))}
-						</div>
+							))
+						) : (
+							<div className="text-center text-gray-500">Loading...</div>
+						)}
 					</div>
-				</main>
-			</div>
-		</HydrateClient>
+				</div>
+				<div className="mt-6 flex items-center justify-between">
+					<h3 className="font-semibold text-lg">Appointments</h3>
+					<button type="button" onClick={handleCreateAppointment}>
+						Create appointment
+					</button>
+				</div>
+			</main>
+		</div>
 	);
 }
