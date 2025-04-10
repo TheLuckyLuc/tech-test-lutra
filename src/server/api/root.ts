@@ -1,4 +1,5 @@
 import { createCallerFactory, createTRPCRouter } from "@lutra/server/api/trpc";
+import { appointmentRouter } from "./routers/appointment";
 import { helloRouter } from "./routers/hello";
 import { patientRouter } from "./routers/patient";
 
@@ -10,6 +11,7 @@ import { patientRouter } from "./routers/patient";
 export const appRouter = createTRPCRouter({
 	hello: helloRouter,
 	patient: patientRouter,
+	appointment: appointmentRouter,
 });
 
 // export type definition of API
