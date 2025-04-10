@@ -1,1 +1,1 @@
-export { getPatients } from './getPatients';
+export { getPatients } from "./getPatients";

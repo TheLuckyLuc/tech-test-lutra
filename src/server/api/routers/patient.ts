@@ -1,8 +1,8 @@
-import type { TRPCRouterRecord } from '@trpc/server';
+import type { TRPCRouterRecord } from "@trpc/server";
 
-import { publicProcedure } from '../trpc';
-import { getPatients } from '../queries/patient';
+import { getPatients } from "../queries/patient";
+import { publicProcedure } from "../trpc";
 
 export const patientRouter = {
-  getPatients: publicProcedure.query(getPatients),
+	getPatients: publicProcedure.query(getPatients),
 } satisfies TRPCRouterRecord;
