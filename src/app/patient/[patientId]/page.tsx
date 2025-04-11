@@ -79,24 +79,26 @@ export default function PatientView() {
 					<p className="text-gray-600">Loading...</p>
 				)}
 
-				<section className="my-6 flex items-center justify-center">
-					{shouldRenderForm ? (
-						<div className="max-w-4xl rounded-md bg-white p-6 shadow-md">
-							<h2 className="font-semibold text-gray-700 text-lg capitalize">
-								New appointment
-							</h2>
-							<Form onSubmit={onSubmit} />
-						</div>
-					) : (
-						<button
-							type="button"
-							onClick={() => setShouldRenderForm(true)}
-							className="transform cursor-pointer rounded-md bg-gray-700 px-8 py-2.5 text-white leading-5 transition-colors duration-300 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
-						>
-							Add Appointment
-						</button>
-					)}
-				</section>
+				{patientResponse.data && (
+					<section className="my-6 flex items-center justify-center">
+						{shouldRenderForm ? (
+							<div className="max-w-4xl rounded-md bg-white p-6 shadow-md">
+								<h2 className="font-semibold text-gray-700 text-lg capitalize">
+									New appointment
+								</h2>
+								<Form onSubmit={onSubmit} />
+							</div>
+						) : (
+							<button
+								type="button"
+								onClick={() => setShouldRenderForm(true)}
+								className="transform cursor-pointer rounded-md bg-gray-700 px-8 py-2.5 text-white leading-5 transition-colors duration-300 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
+							>
+								Add Appointment
+							</button>
+						)}
+					</section>
+				)}
 
 				<section>
 					<h3 className="font-semibold text-lg">Patient Appointments</h3>
