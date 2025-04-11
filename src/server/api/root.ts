@@ -1,5 +1,5 @@
 import { createCallerFactory, createTRPCRouter } from "@lutra/server/api/trpc";
-import { appointmentRouter } from "./routers/appointment";
+import { appointmentRouter } from "./routers/appointment/appointment.router";
 import { helloRouter } from "./routers/hello";
 import { patientRouter } from "./routers/patient/patient.router";
 
