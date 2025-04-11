@@ -58,7 +58,7 @@ export default function PatientView() {
 			</header>
 			<main>
 				{patientResponse.data ? (
-					<>
+					<section>
 						<p className="text-gray-600">
 							First name: {patientResponse.data.firstName}
 						</p>
@@ -74,7 +74,7 @@ export default function PatientView() {
 								Last updated: {formatDate(patientResponse.data.updatedAt)}
 							</p>
 						)}
-					</>
+					</section>
 				) : (
 					<p className="text-gray-600">Loading...</p>
 				)}
@@ -98,30 +98,36 @@ export default function PatientView() {
 					)}
 				</section>
 
-				<h3 className="font-semibold text-lg">Patient Appointments</h3>
-				<div className="mt-6">
-					<div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
-						{appointmentsResponse.data ? (
-							appointmentsResponse.data.map((appointment) => (
-								<div
-									key={appointment.id}
-									className="group relative rounded border border-gray-200 bg-white p-2"
-								>
-									<h3 className="mt-2 font-semibold">{appointment.reason}</h3>
-									<p className="text-gray-600">Status: {appointment.status}</p>
-									<p className="text-gray-600">
-										Scheduled for: {formatDate(appointment.scheduledFor)}
-									</p>
-									{appointment.notes && (
-										<p className="text-gray-600">Notes: {appointment.notes}</p>
-									)}
-								</div>
-							))
-						) : (
-							<div className="text-center text-gray-500">Loading...</div>
-						)}
+				<section>
+					<h3 className="font-semibold text-lg">Patient Appointments</h3>
+					<div className="mt-6">
+						<div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
+							{appointmentsResponse.data ? (
+								appointmentsResponse.data.map((appointment) => (
+									<div
+										key={appointment.id}
+										className="group relative rounded border border-gray-200 bg-white p-2"
+									>
+										<h3 className="mt-2 font-semibold">{appointment.reason}</h3>
+										<p className="text-gray-600">
+											Status: {appointment.status}
+										</p>
+										<p className="text-gray-600">
+											Scheduled for: {formatDate(appointment.scheduledFor)}
+										</p>
+										{appointment.notes && (
+											<p className="text-gray-600">
+												Notes: {appointment.notes}
+											</p>
+										)}
+									</div>
+								))
+							) : (
+								<div className="text-center text-gray-500">Loading...</div>
+							)}
+						</div>
 					</div>
-				</div>
+				</section>
 			</main>
 		</div>
 	);

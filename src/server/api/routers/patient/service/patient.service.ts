@@ -1,24 +1,24 @@
-import { TRPCError } from '@trpc/server';
+import { TRPCError } from "@trpc/server";
 
-import { patientRepository } from '../repository/patient.repository';
+import { patientRepository } from "../repository/patient.repository";
 
 class PatientService {
-  async getPatients() {
-    return await patientRepository.getPatients();
-  }
+	async getPatients() {
+		return await patientRepository.getPatients();
+	}
 
-  async getPatientById(input: string) {
-    const id = Number(input);
+	async getPatientById(input: string) {
+		const id = Number(input);
 
-    if (Number.isNaN(id)) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: `Invalid ID: ${input}. ID must be an integer.`,
-      });
-    }
+		if (Number.isNaN(id)) {
+			throw new TRPCError({
+				code: "BAD_REQUEST",
+				message: `Invalid ID: ${input}. ID must be an integer.`,
+			});
+		}
 
-    return await patientRepository.getPatientById(id);
-  }
+		return await patientRepository.getPatientById(id);
+	}
 }
 
 export const patientService = new PatientService();
