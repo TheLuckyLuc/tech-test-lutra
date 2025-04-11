@@ -1,2 +1,2 @@
-export { createAppointment } from './createAppointment';
-export { getAppointments } from './getAppointments';
+export { createAppointment } from "./createAppointment";
+export { getAppointmentsByPatientId } from "./getAppointmentsByPatientId";
