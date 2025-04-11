@@ -14,6 +14,22 @@ export default function PatientView() {
 	const appointmentsResponse =
 		api.appointment.getAppointmentsByPatientId.useQuery(patientId as string);
 
+	const appointmentCreator = api.appointment.createAppointment.useMutation({
+		onSuccess: () => {
+			appointmentsResponse.refetch();
+		},
+	});
+
+	const handleCreateAppointment = () => {
+		appointmentCreator.mutate({
+			patientId: 1,
+			scheduledFor: new Date(),
+			status: "SCHEDULED",
+			reason: "Routine check-up",
+			notes: "Patient is in good health.",
+		});
+	};
+
 	return (
 		<div className="space-y-4 p-4 sm:p-6 lg:p-8">
 			<header>
@@ -45,7 +61,10 @@ export default function PatientView() {
 					<p className="text-gray-600">Loading...</p>
 				)}
 				<div className="mt-6 flex items-center justify-between">
-					<h3 className="font-semibold text-lg">Appointments</h3>
+					<h3 className="font-semibold text-lg">Patient Appointments</h3>
+					<button type="button" onClick={handleCreateAppointment}>
+						Create appointment
+					</button>
 				</div>
 				<div className="mt-6">
 					<div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -58,8 +77,12 @@ export default function PatientView() {
 									<h3 className="mt-2 font-semibold">{appointment.reason}</h3>
 									<p className="text-gray-600">Status: {appointment.status}</p>
 									<p className="text-gray-600">
-										Patient ID: {appointment.patientId}
+										Scheduled for: {formatDate(appointment.scheduledFor)}
 									</p>
+									<p className="text-gray-600">Reason: {appointment.reason}</p>
+									{appointment.notes && (
+										<p className="text-gray-600">Notes: {appointment.notes}</p>
+									)}
 								</div>
 							))
 						) : (
