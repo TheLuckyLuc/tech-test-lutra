@@ -14,6 +14,15 @@ export const patientRouter = {
 			throw new Error(`Invalid ID: ${input}. ID must be an integer.`);
 		}
 
-		return await getPatientById(id);
+		try {
+			const patientData = await getPatientById(id);
+
+			if (!patientData) return null;
+
+			return patientData;
+		} catch (error) {
+			console.error(`Error fetching patient by ID "${id}":`, error);
+			throw new Error(`Failed to fetch patient with ID "${id}"`);
+		}
 	}),
 } satisfies TRPCRouterRecord;
