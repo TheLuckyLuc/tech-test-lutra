@@ -2,12 +2,16 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useState } from "react";
+import type { SubmitHandler } from "react-hook-form";
 
+import Form, { type FormInputs } from "@lutra/app/_components/common/Form";
 import { api } from "@lutra/trpc/react";
 import { formatDate } from "@lutra/utils/date";
 
 export default function PatientView() {
 	const { patientId } = useParams();
+
 	const patientResponse = api.patient.getPatientById.useQuery(
 		patientId as string,
 	);
@@ -16,18 +20,27 @@ export default function PatientView() {
 
 	const appointmentCreator = api.appointment.createAppointment.useMutation({
 		onSuccess: () => {
-			appointmentsResponse.refetch();
+			appointmentsResponse.refetch(); // Refetch appointments after creating a new one
 		},
 	});
 
-	const handleCreateAppointment = () => {
-		appointmentCreator.mutate({
-			patientId: 1,
-			scheduledFor: new Date(),
-			status: "SCHEDULED",
-			reason: "Routine check-up",
-			notes: "Patient is in good health.",
-		});
+	const [shouldRenderForm, setShouldRenderForm] = useState(false);
+
+	const onSubmit: SubmitHandler<FormInputs> = (data) => {
+		appointmentCreator.mutate(
+			{
+				patientId: Number(patientId),
+				scheduledFor: new Date(data.date),
+				status: "SCHEDULED",
+				reason: data.reason,
+				notes: data.notes ? data.notes : undefined,
+			},
+			{
+				onSuccess: () => {
+					setShouldRenderForm(false);
+				},
+			},
+		);
 	};
 
 	return (
@@ -35,7 +48,12 @@ export default function PatientView() {
 			<header>
 				<div className="flex items-center justify-between">
 					<h3 className="font-semibold text-lg">Patient Details</h3>
-					<Link href="/">Back to home</Link>
+					<Link
+						href="/"
+						className="transform cursor-pointer rounded-md bg-red-700 px-8 py-2.5 text-white leading-5 transition-colors duration-300 hover:bg-red-600 focus:bg-red-600 focus:outline-none"
+					>
+						Back to home
+					</Link>
 				</div>
 			</header>
 			<main>
@@ -60,12 +78,26 @@ export default function PatientView() {
 				) : (
 					<p className="text-gray-600">Loading...</p>
 				)}
-				<div className="mt-6 flex items-center justify-between">
-					<h3 className="font-semibold text-lg">Patient Appointments</h3>
-					<button type="button" onClick={handleCreateAppointment}>
-						Create appointment
-					</button>
-				</div>
+
+				<section className="my-6 flex items-center justify-center">
+					{shouldRenderForm ? (
+						<div className="max-w-4xl rounded-md bg-white p-6 shadow-md">
+							<h2 className="font-semibold text-gray-700 text-lg capitalize">
+								New appointment
+							</h2>
+							<Form onSubmit={onSubmit} />
+						</div>
+					) : (
+						<button
+							onClick={() => setShouldRenderForm(true)}
+							className="transform cursor-pointer rounded-md bg-gray-700 px-8 py-2.5 text-white leading-5 transition-colors duration-300 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
+						>
+							Add Appointment
+						</button>
+					)}
+				</section>
+
+				<h3 className="font-semibold text-lg">Patient Appointments</h3>
 				<div className="mt-6">
 					<div className="grid grid-cols-1 gap-4 pb-1 sm:grid-cols-2 lg:grid-cols-3">
 						{appointmentsResponse.data ? (
@@ -79,7 +111,6 @@ export default function PatientView() {
 									<p className="text-gray-600">
 										Scheduled for: {formatDate(appointment.scheduledFor)}
 									</p>
-									<p className="text-gray-600">Reason: {appointment.reason}</p>
 									{appointment.notes && (
 										<p className="text-gray-600">Notes: {appointment.notes}</p>
 									)}

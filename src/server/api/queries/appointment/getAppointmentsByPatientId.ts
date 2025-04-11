@@ -11,7 +11,7 @@ export const getAppointmentsByPatientId = async (patientId: number) => {
 			.where(eq(appointments.patientId, patientId));
 	} catch (err) {
 		console.error(
-			`Error fetching appointments for patient ID "${patientId}":`,
+			`Error fetching appointments for patient ID "${patientId}": `,
 			err,
 		);
 		throw new Error(
