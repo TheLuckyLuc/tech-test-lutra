@@ -89,6 +89,7 @@ export default function PatientView() {
 						</div>
 					) : (
 						<button
+							type="button"
 							onClick={() => setShouldRenderForm(true)}
 							className="transform cursor-pointer rounded-md bg-gray-700 px-8 py-2.5 text-white leading-5 transition-colors duration-300 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none"
 						>

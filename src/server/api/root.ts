@@ -1,7 +1,7 @@
 import { createCallerFactory, createTRPCRouter } from "@lutra/server/api/trpc";
 import { appointmentRouter } from "./routers/appointment";
 import { helloRouter } from "./routers/hello";
-import { patientRouter } from "./routers/patient";
+import { patientRouter } from "./routers/patient/patient.router";
 
 /**
  * This is the primary router for your server.
