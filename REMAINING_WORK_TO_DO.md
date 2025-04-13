@@ -42,3 +42,8 @@ When it came to the frontend code, I didn't spend a huge amount of time on it an
   - Following up with changing the `h3` tags (for "Patients", "Patient Details" and "Patient Appointments" headings) to `h2`s.
 - Update the patients and appointments list sections to be an unordered list (`ul`), which can then just be styled to still have a grid look.
 - There doesn't appear to be much of a reason to use the `span` and `absolute inset-0` approach to make the patient cards fully clickable (unless I'm missing something obvious), so I would've just wrapped the entire card in an anchor tag, with appropriate styling to ensure it still looked/behaved the same.
+
+## Other bits
+
+- Sort patient appointments in date order.
+- Prevent past date from being selectable when creating appointment.
