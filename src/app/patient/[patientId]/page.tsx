@@ -33,7 +33,7 @@ export default function PatientView() {
 				scheduledFor: new Date(data.date),
 				status: "SCHEDULED",
 				reason: data.reason,
-				notes: data.notes ? data.notes : undefined,
+				notes: data.notes || undefined,
 			},
 			{
 				onSuccess: () => {

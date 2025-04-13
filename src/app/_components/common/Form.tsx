@@ -7,7 +7,7 @@ interface FormProps {
 export interface FormInputs {
 	date: string;
 	reason: string;
-	notes: string | undefined;
+	notes: string;
 }
 
 const Form = ({ onSubmit }: FormProps) => {
